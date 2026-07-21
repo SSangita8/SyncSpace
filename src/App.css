@@ -1,0 +1,544 @@
+/* =========================
+   GLOBAL RESET
+========================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: #0f172a;
+}
+
+button,
+input {
+  font-family: inherit;
+}
+
+/* =========================
+   AUTHENTICATION PAGE
+========================= */
+
+.auth-page {
+  min-height: 100vh;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+
+  padding: 50px;
+
+  background: #0f172a;
+}
+
+/* AUTH CARD */
+
+.auth-card {
+  width: 100%;
+
+  max-width: 420px;
+
+  padding: 45px;
+
+  background: #ffffff;
+
+  border-radius: 16px;
+
+  text-align: center;
+
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+/* LOGO */
+
+.auth-card h1 {
+  color: #2563eb;
+
+  font-size: 42px;
+
+  margin-bottom: 30px;
+}
+
+/* HEADINGS */
+
+.auth-card h2 {
+  color: #1e293b;
+
+  font-size: 28px;
+
+  margin-bottom: 10px;
+}
+
+/* DESCRIPTION */
+
+.auth-card p {
+  color: #64748b;
+
+  margin: 15px 0;
+  padding: 0 10px;
+
+  line-height: 1.5;
+}
+
+/* AUTH FORM */
+
+.auth-card form {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 15px;
+
+  margin-top: 25px;
+}
+
+/* INPUT */
+
+.auth-card input {
+  width: 100%;
+
+  padding: 14px 16px;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 8px;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition: 0.3s;
+}
+
+.auth-card input:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* AUTH BUTTON */
+
+.auth-card button {
+  width: 100%;
+
+  padding: 14px;
+
+  border: none;
+
+  border-radius: 8px;
+
+  background: #2563eb;
+
+  color: white;
+
+  cursor: pointer;
+
+  font-size: 16px;
+
+  font-weight: bold;
+
+  transition: 0.3s;
+}
+
+.auth-card button:hover {
+  background: #1d4ed8;
+
+  transform: translateY(-2px);
+}
+
+/* AUTH LINKS */
+
+.auth-card a {
+  color: #2563eb;
+
+  margin-left: 5px;
+
+  font-weight: bold;
+
+  text-decoration: none;
+}
+
+.auth-card a:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   DASHBOARD
+========================= */
+
+.dashboard {
+  min-height: 100vh;
+
+  background: #f1f5f9;
+}
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+  min-height: 70px;
+
+  padding: 0 40px;
+
+  background: #0f172a;
+
+  color: white;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+}
+
+/* LOGO */
+
+.navbar h1 {
+  color: #60a5fa;
+
+  font-size: 26px;
+}
+
+/* NAVBAR RIGHT SIDE */
+
+.navbar div {
+  display: flex;
+
+  align-items: center;
+
+  gap: 20px;
+}
+
+/* USER NAME */
+
+.navbar span {
+  color: #cbd5e1;
+
+  font-size: 15px;
+}
+
+/* LOGOUT BUTTON */
+
+.navbar button {
+  padding: 10px 18px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  background: #ef4444;
+
+  color: white;
+
+  cursor: pointer;
+
+  font-weight: bold;
+
+  transition: 0.3s;
+}
+
+.navbar button:hover {
+  background: #dc2626;
+}
+
+/* =========================
+   DASHBOARD CONTENT
+========================= */
+
+.dashboard-content {
+  width: 100%;
+
+  max-width: 1200px;
+
+  margin: auto;
+
+  padding: 40px;
+}
+
+/* MAIN HEADING */
+
+.dashboard-content > h2 {
+  color: #1e293b;
+
+  font-size: 32px;
+
+  margin-bottom: 30px;
+}
+
+/* =========================
+   DASHBOARD CARDS
+========================= */
+
+.dashboard-card {
+  background: white;
+
+  padding: 25px;
+
+  border-radius: 12px;
+
+  margin-bottom: 25px;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* CARD HEADING */
+
+.dashboard-card h3 {
+  color: #1e293b;
+
+  margin-bottom: 20px;
+}
+
+/* =========================
+   ROOM FORM
+========================= */
+
+.room-form {
+  display: flex;
+
+  gap: 15px;
+}
+
+/* ROOM INPUT */
+
+.room-form input {
+  flex: 1;
+
+  padding: 12px 15px;
+
+  border: 1px solid #cbd5e1;
+
+  border-radius: 7px;
+
+  font-size: 15px;
+
+  outline: none;
+
+  transition: 0.3s;
+}
+
+.room-form input:focus {
+  border-color: #2563eb;
+
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* PRIMARY BUTTON */
+
+.room-form button {
+  padding: 12px 20px;
+
+  border: none;
+
+  border-radius: 7px;
+
+  background: #2563eb;
+
+  color: white;
+
+  cursor: pointer;
+
+  font-weight: bold;
+
+  transition: 0.3s;
+}
+
+.room-form button:hover {
+  background: #1d4ed8;
+
+  transform: translateY(-1px);
+}
+
+/* =========================
+   ROOMS SECTION
+========================= */
+
+.rooms-section {
+  margin-top: 35px;
+}
+
+.rooms-section > h3 {
+  color: #1e293b;
+
+  font-size: 24px;
+
+  margin-bottom: 20px;
+}
+
+.rooms-section > p {
+  color: #64748b;
+
+  padding: 20px;
+
+  background: white;
+
+  border-radius: 10px;
+}
+
+/* =========================
+   ROOM GRID
+========================= */
+
+.rooms-grid {
+  display: grid;
+
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+
+  gap: 20px;
+}
+
+/* ROOM CARD */
+
+.room-card {
+  padding: 25px;
+
+  background: white;
+
+  border-radius: 12px;
+
+  border: 1px solid #e2e8f0;
+
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  transition: 0.3s;
+}
+
+.room-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* ROOM NAME */
+
+.room-card h3 {
+  color: #2563eb;
+
+  font-size: 20px;
+
+  margin-bottom: 15px;
+}
+
+/* ROOM INFORMATION */
+
+.room-card p {
+  color: #64748b;
+
+  margin: 10px 0;
+
+  font-size: 14px;
+}
+
+.room-card strong {
+  color: #334155;
+
+  margin-left: 5px;
+}
+
+/* ROOM BUTTONS */
+
+.room-card button {
+  width: 100%;
+
+  margin-top: 10px;
+
+  padding: 10px;
+
+  border: none;
+
+  border-radius: 6px;
+
+  background: #2563eb;
+
+  color: white;
+
+  cursor: pointer;
+
+  font-weight: bold;
+
+  transition: 0.3s;
+}
+
+.room-card button:hover {
+  background: #1d4ed8;
+}
+
+/* DELETE / LEAVE BUTTON */
+
+.room-card .danger-button {
+  background: #ef4444;
+}
+
+.room-card .danger-button:hover {
+  background: #dc2626;
+}
+
+/* =========================
+   INVITE MEMBER SECTION
+========================= */
+
+.dashboard-card ul {
+  margin-top: 15px;
+
+  padding-left: 20px;
+}
+
+.dashboard-card li {
+  color: #475569;
+
+  margin: 8px 0;
+}
+
+/* =========================
+   RESPONSIVE DESIGN
+========================= */
+
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px 20px;
+
+    flex-direction: column;
+
+    gap: 15px;
+  }
+
+  .navbar div {
+    width: 100%;
+
+    justify-content: space-between;
+  }
+
+  .dashboard-content {
+    padding: 25px 20px;
+  }
+
+  .dashboard-content > h2 {
+    font-size: 26px;
+  }
+
+  .room-form {
+    flex-direction: column;
+  }
+
+  .room-form button {
+    width: 100%;
+  }
+
+  .rooms-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-card {
+    padding: 30px 25px;
+  }
+
+  .auth-card h1 {
+    font-size: 36px;
+  }
+}
