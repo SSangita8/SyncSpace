@@ -10,13 +10,15 @@
 
 body {
   font-family: Arial, Helvetica, sans-serif;
-  background: #0f172a;
+  background: #2d3250;
+  color: #2d3250;
 }
 
 button,
 input {
   font-family: inherit;
 }
+
 
 /* =========================
    AUTHENTICATION PAGE
@@ -26,21 +28,19 @@ input {
   min-height: 100vh;
 
   display: flex;
-
   justify-content: center;
-
   align-items: center;
 
-  padding: 50px;
+  padding: 20px;
 
-  background: #0f172a;
+  background: #2d3250;
 }
+
 
 /* AUTH CARD */
 
 .auth-card {
   width: 100%;
-
   max-width: 420px;
 
   padding: 45px;
@@ -51,39 +51,43 @@ input {
 
   text-align: center;
 
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+  box-shadow:
+    0 20px 50px rgba(45, 50, 80, 0.4);
 }
+
 
 /* LOGO */
 
 .auth-card h1 {
-  color: #2563eb;
+  color: #424769;
 
   font-size: 42px;
 
   margin-bottom: 30px;
 }
 
+
 /* HEADINGS */
 
 .auth-card h2 {
-  color: #1e293b;
+  color: #2d3250;
 
   font-size: 28px;
 
   margin-bottom: 10px;
 }
 
+
 /* DESCRIPTION */
 
 .auth-card p {
-  color: #64748b;
+  color: #676f9d;
 
   margin: 15px 0;
-  padding: 0 10px;
 
   line-height: 1.5;
 }
+
 
 /* AUTH FORM */
 
@@ -97,6 +101,7 @@ input {
   margin-top: 25px;
 }
 
+
 /* INPUT */
 
 .auth-card input {
@@ -104,22 +109,30 @@ input {
 
   padding: 14px 16px;
 
-  border: 1px solid #cbd5e1;
+  border: 1px solid #676f9d;
 
   border-radius: 8px;
 
   font-size: 15px;
+
+  color: #2d3250;
 
   outline: none;
 
   transition: 0.3s;
 }
 
-.auth-card input:focus {
-  border-color: #2563eb;
-
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+.auth-card input::placeholder {
+  color: #676f9d;
 }
+
+.auth-card input:focus {
+  border-color: #f9b17a;
+
+  box-shadow:
+    0 0 0 3px rgba(249, 177, 122, 0.25);
+}
+
 
 /* AUTH BUTTON */
 
@@ -132,9 +145,9 @@ input {
 
   border-radius: 8px;
 
-  background: #2563eb;
+  background: #f9b17a;
 
-  color: white;
+  color: #2d3250;
 
   cursor: pointer;
 
@@ -146,15 +159,18 @@ input {
 }
 
 .auth-card button:hover {
-  background: #1d4ed8;
+  background: #424769;
+
+  color: #ffffff;
 
   transform: translateY(-2px);
 }
 
+
 /* AUTH LINKS */
 
 .auth-card a {
-  color: #2563eb;
+  color: #424769;
 
   margin-left: 5px;
 
@@ -164,46 +180,40 @@ input {
 }
 
 .auth-card a:hover {
+  color: #f9b17a;
+
   text-decoration: underline;
 }
 
-/* =========================
-   DASHBOARD
-========================= */
 
+/*  DASHBOARD */
 .dashboard {
   min-height: 100vh;
-
-  background: #f1f5f9;
+  background: #ffffff;
 }
 
-/* =========================
-   NAVBAR
-========================= */
+
+/*  NAVBAR */
 
 .navbar {
   min-height: 70px;
-
   padding: 0 40px;
-
-  background: #0f172a;
-
-  color: white;
-
+  background: #2d3250;
+  color: #ffffff;
   display: flex;
-
   align-items: center;
-
   justify-content: space-between;
 }
+
 
 /* LOGO */
 
 .navbar h1 {
-  color: #60a5fa;
+  color: #f9b17a;
 
   font-size: 26px;
 }
+
 
 /* NAVBAR RIGHT SIDE */
 
@@ -215,13 +225,15 @@ input {
   gap: 20px;
 }
 
+
 /* USER NAME */
 
 .navbar span {
-  color: #cbd5e1;
+  color: #ffffff;
 
   font-size: 15px;
 }
+
 
 /* LOGOUT BUTTON */
 
@@ -232,9 +244,9 @@ input {
 
   border-radius: 6px;
 
-  background: #ef4444;
+  background: #f9b17a;
 
-  color: white;
+  color: #2d3250;
 
   cursor: pointer;
 
@@ -244,8 +256,11 @@ input {
 }
 
 .navbar button:hover {
-  background: #dc2626;
+  background: #ffffff;
+
+  color: #2d3250;
 }
+
 
 /* =========================
    DASHBOARD CONTENT
@@ -261,22 +276,24 @@ input {
   padding: 40px;
 }
 
+
 /* MAIN HEADING */
 
 .dashboard-content > h2 {
-  color: #1e293b;
+  color: #2d3250;
 
   font-size: 32px;
 
   margin-bottom: 30px;
 }
 
+
 /* =========================
    DASHBOARD CARDS
 ========================= */
 
 .dashboard-card {
-  background: white;
+  background: #ffffff;
 
   padding: 25px;
 
@@ -284,16 +301,21 @@ input {
 
   margin-bottom: 25px;
 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #676f9d;
+
+  box-shadow:
+    0 4px 12px rgba(45, 50, 80, 0.1);
 }
+
 
 /* CARD HEADING */
 
 .dashboard-card h3 {
-  color: #1e293b;
+  color: #424769;
 
   margin-bottom: 20px;
 }
+
 
 /* =========================
    ROOM FORM
@@ -305,6 +327,7 @@ input {
   gap: 15px;
 }
 
+
 /* ROOM INPUT */
 
 .room-form input {
@@ -312,22 +335,30 @@ input {
 
   padding: 12px 15px;
 
-  border: 1px solid #cbd5e1;
+  border: 1px solid #676f9d;
 
   border-radius: 7px;
 
   font-size: 15px;
+
+  color: #2d3250;
 
   outline: none;
 
   transition: 0.3s;
 }
 
-.room-form input:focus {
-  border-color: #2563eb;
-
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+.room-form input::placeholder {
+  color: #676f9d;
 }
+
+.room-form input:focus {
+  border-color: #f9b17a;
+
+  box-shadow:
+    0 0 0 3px rgba(249, 177, 122, 0.25);
+}
+
 
 /* PRIMARY BUTTON */
 
@@ -338,9 +369,9 @@ input {
 
   border-radius: 7px;
 
-  background: #2563eb;
+  background: #424769;
 
-  color: white;
+  color: #ffffff;
 
   cursor: pointer;
 
@@ -350,10 +381,11 @@ input {
 }
 
 .room-form button:hover {
-  background: #1d4ed8;
+  background: #f9b17a;
 
-  transform: translateY(-1px);
+  color: #2d3250;
 }
+
 
 /* =========================
    ROOMS SECTION
@@ -363,23 +395,28 @@ input {
   margin-top: 35px;
 }
 
+
 .rooms-section > h3 {
-  color: #1e293b;
+  color: #424769;
 
   font-size: 24px;
 
   margin-bottom: 20px;
 }
 
+
 .rooms-section > p {
-  color: #64748b;
+  color: #676f9d;
 
   padding: 20px;
 
-  background: white;
+  background: #ffffff;
+
+  border: 1px solid #676f9d;
 
   border-radius: 10px;
 }
+
 
 /* =========================
    ROOM GRID
@@ -388,23 +425,26 @@ input {
 .rooms-grid {
   display: grid;
 
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns:
+    repeat(auto-fill, minmax(280px, 1fr));
 
   gap: 20px;
 }
+
 
 /* ROOM CARD */
 
 .room-card {
   padding: 25px;
 
-  background: white;
+  background: #ffffff;
 
   border-radius: 12px;
 
-  border: 1px solid #e2e8f0;
+  border: 1px solid #676f9d;
 
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  box-shadow:
+    0 4px 12px rgba(45, 50, 80, 0.1);
 
   transition: 0.3s;
 }
@@ -412,23 +452,28 @@ input {
 .room-card:hover {
   transform: translateY(-4px);
 
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+  border-color: #f9b17a;
+
+  box-shadow:
+    0 8px 20px rgba(45, 50, 80, 0.15);
 }
+
 
 /* ROOM NAME */
 
 .room-card h3 {
-  color: #2563eb;
+  color: #424769;
 
   font-size: 20px;
 
   margin-bottom: 15px;
 }
 
+
 /* ROOM INFORMATION */
 
 .room-card p {
-  color: #64748b;
+  color: #676f9d;
 
   margin: 10px 0;
 
@@ -436,10 +481,11 @@ input {
 }
 
 .room-card strong {
-  color: #334155;
+  color: #2d3250;
 
   margin-left: 5px;
 }
+
 
 /* ROOM BUTTONS */
 
@@ -454,9 +500,9 @@ input {
 
   border-radius: 6px;
 
-  background: #2563eb;
+  background: #424769;
 
-  color: white;
+  color: #ffffff;
 
   cursor: pointer;
 
@@ -466,18 +512,26 @@ input {
 }
 
 .room-card button:hover {
-  background: #1d4ed8;
+  background: #f9b17a;
+
+  color: #2d3250;
 }
+
 
 /* DELETE / LEAVE BUTTON */
 
 .room-card .danger-button {
-  background: #ef4444;
+  background: #2d3250;
+
+  color: #ffffff;
 }
 
 .room-card .danger-button:hover {
-  background: #dc2626;
+  background: #f9b17a;
+
+  color: #2d3250;
 }
+
 
 /* =========================
    INVITE MEMBER SECTION
@@ -490,16 +544,18 @@ input {
 }
 
 .dashboard-card li {
-  color: #475569;
+  color: #676f9d;
 
   margin: 8px 0;
 }
+
 
 /* =========================
    RESPONSIVE DESIGN
 ========================= */
 
 @media (max-width: 768px) {
+
   .navbar {
     padding: 15px 20px;
 
@@ -508,37 +564,46 @@ input {
     gap: 15px;
   }
 
+
   .navbar div {
     width: 100%;
 
     justify-content: space-between;
   }
 
+
   .dashboard-content {
     padding: 25px 20px;
   }
+
 
   .dashboard-content > h2 {
     font-size: 26px;
   }
 
+
   .room-form {
     flex-direction: column;
   }
+
 
   .room-form button {
     width: 100%;
   }
 
+
   .rooms-grid {
     grid-template-columns: 1fr;
   }
+
 
   .auth-card {
     padding: 30px 25px;
   }
 
+
   .auth-card h1 {
     font-size: 36px;
   }
+
 }
