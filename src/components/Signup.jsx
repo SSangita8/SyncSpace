@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Signup() {
   const navigate = useNavigate();
@@ -8,20 +9,38 @@ function Signup() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleSignup = (e) => {
+  const [loading, setLoading] = useState(false);
+
+  const handleSignup = async (e) => {
     e.preventDefault();
 
-    const user = {
-      name,
-      email,
-      password,
-    };
+    setLoading(true);
 
-    localStorage.setItem("user", JSON.stringify(user));
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/signup",
+        {
+          name,
+          email,
+          password,
+        },
+      );
 
-    alert("Account created successfully!");
+      alert(response.data.message);
 
-    navigate("/");
+      setName("");
+      setEmail("");
+      setPassword("");
+
+      // Redirect to login page
+      navigate("/");
+    } catch (error) {
+      alert(
+        error.response?.data?.message || "Signup failed. Please try again.",
+      );
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -56,14 +75,16 @@ function Signup() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
+            minLength={6}
           />
 
-          <button type="submit">Create Account</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Creating..." : "Create Account"}
+          </button>
         </form>
 
         <p>
-          Already have an account?
-          <Link to="/">Login</Link>
+          Already have an account? <Link to="/">Login</Link>
         </p>
       </div>
     </div>
