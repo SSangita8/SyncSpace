@@ -1,159 +1,127 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+
+const API = "http://localhost:5000/api/rooms";
 
 function Dashboard() {
   const navigate = useNavigate();
 
+  const token = localStorage.getItem("token");
+
   const user = JSON.parse(localStorage.getItem("user"));
 
-  const [rooms, setRooms] = useState(
-    JSON.parse(localStorage.getItem("rooms")) || [],
-  );
+  const [rooms, setRooms] = useState([]);
 
   const [roomName, setRoomName] = useState("");
 
   const [joinRoomId, setJoinRoomId] = useState("");
 
-  const [inviteEmail, setInviteEmail] = useState("");
+  useEffect(() => {
+    fetchRooms();
+  }, []);
 
-  const [selectedRoom, setSelectedRoom] = useState(null);
+  const fetchRooms = async () => {
+    try {
+      const res = await axios.get(API, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-  // CREATE ROOM
-  const createRoom = () => {
-    if (!roomName.trim()) {
-      alert("Enter a room name");
-      return;
+      setRooms(res.data.rooms);
+    } catch (err) {
+      console.error(err);
     }
-
-    const newRoom = {
-      id: Date.now().toString(),
-
-      name: roomName,
-
-      owner: user.email,
-
-      members: [user.email],
-
-      invitedMembers: [],
-
-      createdAt: new Date().toLocaleString(),
-    };
-
-    const updatedRooms = [...rooms, newRoom];
-
-    setRooms(updatedRooms);
-
-    localStorage.setItem("rooms", JSON.stringify(updatedRooms));
-
-    setRoomName("");
-
-    alert("Room created successfully!");
   };
 
-  // JOIN ROOM
-  const joinRoom = () => {
-    const room = rooms.find((room) => room.id === joinRoomId);
-
-    if (!room) {
-      alert("Room not found");
-      return;
+  const createRoom = async () => {
+    if (!roomName.trim()) {
+      return alert("Enter room name");
     }
 
-    if (!room.members.includes(user.email)) {
-      const updatedRoom = {
-        ...room,
-
-        members: [...room.members, user.email],
-      };
-
-      const updatedRooms = rooms.map((r) =>
-        r.id === room.id ? updatedRoom : r,
+    try {
+      await axios.post(
+        API,
+        {
+          name: roomName,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
       );
 
-      setRooms(updatedRooms);
+      setRoomName("");
 
-      localStorage.setItem("rooms", JSON.stringify(updatedRooms));
+      fetchRooms();
+    } catch (err) {
+      alert(err.response?.data?.message || "Unable to create room");
     }
-
-    alert("Joined room successfully!");
-
-    setJoinRoomId("");
   };
 
-  // INVITE MEMBER
-  const inviteMember = () => {
-    if (!selectedRoom) {
-      alert("Select a room first");
-      return;
+  const joinRoom = async () => {
+    if (!joinRoomId.trim()) {
+      return alert("Enter Room ID");
     }
 
-    if (!inviteEmail.trim()) {
-      alert("Enter an email");
-      return;
+    try {
+      await axios.post(
+        `${API}/join`,
+        {
+          roomId: joinRoomId,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      fetchRooms();
+
+      navigate(`/room/${joinRoomId}`);
+    } catch (err) {
+      alert(err.response?.data?.message || "Unable to join room");
     }
-
-    const updatedRoom = {
-      ...selectedRoom,
-
-      invitedMembers: [...selectedRoom.invitedMembers, inviteEmail],
-    };
-
-    const updatedRooms = rooms.map((room) =>
-      room.id === selectedRoom.id ? updatedRoom : room,
-    );
-
-    setRooms(updatedRooms);
-
-    setSelectedRoom(updatedRoom);
-
-    localStorage.setItem("rooms", JSON.stringify(updatedRooms));
-
-    setInviteEmail("");
-
-    alert(`Invitation sent to ${inviteEmail}`);
   };
 
-  // LEAVE ROOM
-  const leaveRoom = (roomId) => {
-    const updatedRooms = rooms.map((room) => {
-      if (room.id === roomId) {
-        return {
-          ...room,
+  const leaveRoom = async (roomId) => {
+    try {
+      await axios.post(
+        `${API}/${roomId}/leave`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
-          members: room.members.filter((member) => member !== user.email),
-        };
-      }
-
-      return room;
-    });
-
-    setRooms(updatedRooms);
-
-    localStorage.setItem("rooms", JSON.stringify(updatedRooms));
-  };
-
-  // DELETE ROOM
-  const deleteRoom = (roomId) => {
-    const room = rooms.find((room) => room.id === roomId);
-
-    if (room.owner !== user.email) {
-      alert("Only the room owner can delete this room");
-
-      return;
+      fetchRooms();
+    } catch (err) {
+      alert(err.response?.data?.message);
     }
-
-    const updatedRooms = rooms.filter((room) => room.id !== roomId);
-
-    setRooms(updatedRooms);
-
-    localStorage.setItem("rooms", JSON.stringify(updatedRooms));
-
-    setSelectedRoom(null);
   };
 
-  // LOGOUT
+  const deleteRoom = async (roomId) => {
+    try {
+      await axios.delete(`${API}/${roomId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      fetchRooms();
+    } catch (err) {
+      alert(err.response?.data?.message);
+    }
+  };
+
   const logout = () => {
-    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
 
     navigate("/");
   };
@@ -173,10 +141,8 @@ function Dashboard() {
       <main className="dashboard-content">
         <h2>Workspace Dashboard</h2>
 
-        {/* CREATE ROOM */}
-
         <section className="dashboard-card">
-          <h3>Create a Room</h3>
+          <h3>Create Room</h3>
 
           <div className="room-form">
             <input
@@ -186,74 +152,61 @@ function Dashboard() {
               onChange={(e) => setRoomName(e.target.value)}
             />
 
-            <button onClick={createRoom}>Create Room</button>
+            <button onClick={createRoom}>Create</button>
           </div>
         </section>
 
-        {/* JOIN ROOM */}
-
         <section className="dashboard-card">
-          <h3>Join a Room</h3>
+          <h3>Join Room</h3>
 
           <div className="room-form">
             <input
               type="text"
-              placeholder="Enter Room ID"
+              placeholder="MongoDB Room ID"
               value={joinRoomId}
               onChange={(e) => setJoinRoomId(e.target.value)}
             />
 
-            <button onClick={joinRoom}>Join Room</button>
+            <button onClick={joinRoom}>Join</button>
           </div>
         </section>
-
-        {/* ROOMS */}
 
         <section className="rooms-section">
           <h3>Your Rooms</h3>
 
           {rooms.length === 0 ? (
-            <p>You haven't created or joined any rooms yet.</p>
+            <p>No rooms yet.</p>
           ) : (
             <div className="rooms-grid">
               {rooms.map((room) => (
-                <div className="room-card" key={room.id}>
+                <div className="room-card" key={room._id}>
                   <h3>{room.name}</h3>
 
                   <p>
-                    Room ID:
-                    <strong>{room.id}</strong>
+                    <strong>ID:</strong>
+                    <br />
+                    {room._id}
                   </p>
 
-                  <p>
-                    Members:
-                    {room.members.length}
-                  </p>
+                  <p>Owner: {room.owner.name}</p>
 
-                  <p>
-                    Owner:
-                    {room.owner}
-                  </p>
+                  <p>Members: {room.members.length}</p>
 
-                  <button onClick={() => navigate(`/room/${room.id}`)}>
+                  <button onClick={() => navigate(`/room/${room._id}`)}>
                     Enter Room
                   </button>
 
-                  <button onClick={() => setSelectedRoom(room)}>
-                    Invite Member
-                  </button>
-
-                  {room.owner === user.email ? (
+                  {room.owner._id === user._id ? (
                     <button
                       className="danger-button"
-                      onClick={() => deleteRoom(room.id)}
+                      onClick={() => deleteRoom(room._id)}
                     >
                       Delete Room
                     </button>
                   ) : (
                     <button
                       className="danger-button"
-                      onClick={() => leaveRoom(room.id)}
+                      onClick={() => leaveRoom(room._id)}
                     >
                       Leave Room
                     </button>
@@ -263,36 +216,6 @@ function Dashboard() {
             </div>
           )}
         </section>
-
-        {/* INVITE MEMBER */}
-
-        {selectedRoom && (
-          <section className="dashboard-card">
-            <h3>
-              Invite Members to:
-              {selectedRoom.name}
-            </h3>
-
-            <div className="room-form">
-              <input
-                type="email"
-                placeholder="Member email"
-                value={inviteEmail}
-                onChange={(e) => setInviteEmail(e.target.value)}
-              />
-
-              <button onClick={inviteMember}>Send Invitation</button>
-            </div>
-
-            <p>Invited Members:</p>
-
-            <ul>
-              {selectedRoom.invitedMembers.map((email, index) => (
-                <li key={index}>{email}</li>
-              ))}
-            </ul>
-          </section>
-        )}
       </main>
     </div>
   );
