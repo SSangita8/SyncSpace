@@ -1,71 +1,117 @@
-import { useRef } from "react";
+import "./editor.css";
+import { useState } from "react";
 import Editor from "@monaco-editor/react";
-import { MonacoBinding } from "y-monaco";
 
-import { createYDoc } from "./yjs";
+import { LANGUAGES } from "../constants/languages";
+import { DEFAULT_CODE } from "../constants/defaultCode";
+import { runCode } from "../services/judge0";
 
-function CodeEditor({ roomId }) {
-  const bindingRef = useRef(null);
+function CodeEditor() {
+  
+  // STATE
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const [selectedLanguage, setSelectedLanguage] = useState(LANGUAGES[0]);
 
-  const COLORS = [
-    "#f94144",
-    "#f3722c",
-    "#f8961e",
-    "#90be6d",
-    "#43aa8b",
-    "#577590",
-    "#277da1",
-    "#9b5de5",
-    "#ff006e",
-    "#00bbf9",
-    "#2d3250",
-    "#676f9d",
-  ];
+  const [code, setCode] = useState(DEFAULT_CODE[LANGUAGES[0].monaco]);
 
-  const getUserColor = (id) => {
-    let hash = 0;
+  const [output, setOutput] = useState("");
 
-    for (let i = 0; i < id.length; i++) {
-      hash = id.charCodeAt(i) + ((hash << 5) - hash);
+  const [running, setRunning] = useState(false);
+
+  // LANGUAGE CHANGE
+  
+  const handleLanguageChange = (event) => {
+    const language = LANGUAGES.find(
+      (lang) => lang.id === Number(event.target.value),
+    );
+
+    setSelectedLanguage(language);
+
+    setCode(DEFAULT_CODE[language.monaco]);
+  };
+
+  
+  // RUN CODE
+  
+
+  const handleRunCode = async () => {
+    setRunning(true);
+    setOutput("Running...");
+
+    try {
+      const result = await runCode(code, selectedLanguage.id);
+
+      if (result.stdout) {
+        setOutput(result.stdout);
+      } else if (result.stderr) {
+        setOutput(result.stderr);
+      } else if (result.compile_output) {
+        setOutput(result.compile_output);
+      } else if (result.message) {
+        setOutput(result.message);
+      } else {
+        setOutput("No output.");
+      }
+    } catch (error) {
+      console.error(error);
+      setOutput("Something went wrong while executing the code.");
     }
 
-    return COLORS[Math.abs(hash) % COLORS.length];
+    setRunning(false);
   };
 
-  const handleEditorDidMount = (editor) => {
-    const model = editor.getModel();
-
-    if (!model) return;
-
-    bindingRef.current?.destroy();
-
-    const { text, awareness } = createYDoc(roomId);
-
-    bindingRef.current = new MonacoBinding(
-      text,
-      model,
-      new Set([editor]),
-      awareness,
-    );
-  };
+  // UI
 
   return (
-    <Editor
-      height="100%"
-      defaultLanguage="javascript"
-      theme="vs-dark"
-      onMount={handleEditorDidMount}
-      options={{
-        automaticLayout: true,
-        minimap: {
-          enabled: false,
-        },
-        fontSize: 15,
-        wordWrap: "on",
-      }}
-    />
+    <div className="code-editor-container">
+      {/* Toolbar */}
+      <div className="editor-toolbar">
+        <select value={selectedLanguage.id} onChange={handleLanguageChange}>
+          {LANGUAGES.map((language) => (
+            <option key={language.id} value={language.id}>
+              {language.name}
+            </option>
+          ))}
+        </select>
+
+        <button
+          className="run-button"
+          onClick={handleRunCode}
+          disabled={running}
+        >
+          {running ? "Running..." : "▶ Run Code"}
+        </button>
+      </div>
+
+      {/* Monaco Editor */}
+      <div className="editor-area">
+        <Editor
+          height="100%"
+          language={selectedLanguage.monaco}
+          value={code}
+          theme="vs-dark"
+          onChange={(value) => setCode(value || "")}
+          options={{
+            minimap: {
+              enabled: false,
+            },
+            automaticLayout: true,
+            fontSize: 15,
+            scrollBeyondLastLine: false,
+            wordWrap: "on",
+          }}
+        />
+      </div>
+
+      {/* Output */}
+      <div className="output-panel">
+        <div className="output-title">Output</div>
+
+        <pre className="output-console">
+          {output || "Run your program to see the output..."}
+        </pre>
+      </div>
+    </div>
   );
 }
 
