@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
@@ -7,22 +8,25 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          email,
+          password,
+        },
+      );
 
-    if (!storedUser) {
-      alert("No account found. Please sign up first.");
-      return;
-    }
+      localStorage.setItem("token", response.data.token);
 
-    if (email === storedUser.email && password === storedUser.password) {
-      localStorage.setItem("isLoggedIn", "true");
+      localStorage.setItem("user", JSON.stringify(response.data.user));
 
       navigate("/dashboard");
-    } else {
-      alert("Invalid email or password");
+    } catch (error) {
+      alert(error.response?.data?.message || "Login failed");
     }
   };
 
